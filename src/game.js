@@ -9,7 +9,7 @@ function Game() {
   this.addAsteroids();
 
   this.backgroundImage = new Image();
-  this.backgroundImage.src = "../src/stars.jpeg";
+  this.backgroundImage.src = "../dist/stars.jpeg";
 }
 
 Game.BG_COLOR = "black";

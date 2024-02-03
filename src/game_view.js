@@ -13,13 +13,11 @@ GameView.MOVES = {
   d: [1, 0],
 };
 
-GameView.prototype.start = function () {
-  var self = this;
-  this.interval = setInterval(function () {
-    self.game.step();
-    self.game.draw(self.ctx);
-  }, 20);
-  self.bindKeyHandlers();
+GameView.prototype.start = function start() {
+  this.bindKeyHandlers();
+  this.lastTime = 0;
+  // start the animation
+  requestAnimationFrame(this.animate.bind(this));
 };
 
 GameView.prototype.bindKeyHandlers = function () {
@@ -34,6 +32,17 @@ GameView.prototype.bindKeyHandlers = function () {
   key("space", function () {
     ship.fireBullet();
   });
+};
+
+GameView.prototype.animate = function animate(time) {
+  const timeDelta = time - this.lastTime;
+
+  this.game.step(timeDelta);
+  this.game.draw(this.ctx);
+  this.lastTime = time;
+
+  // every call to animate requests causes another call to animate
+  requestAnimationFrame(this.animate.bind(this));
 };
 
 module.exports = GameView;
